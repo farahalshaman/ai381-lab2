@@ -10,7 +10,9 @@ COPY requirements.lock .
 RUN pip install --no-cache-dir -r requirements.lock
 
 FROM python:3.12-slim@sha256:646fb0bca3dd3ea1bcc6feb72c17ed16eed6e10cffc732fcc1478bd3e7f02d7b AS runtime
-
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV PYTHONDONTWRITEBYTECODE=1
