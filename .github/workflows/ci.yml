@@ -57,17 +57,16 @@ jobs:
           load: true
           tags: ai381-lab2:scan
 
-      - name: Scan image with Trivy
-        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          image-ref: ai381-lab2:scan
-          format: table
-          exit-code: "1"
-          ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL,HIGH
+     - name: Scan image with Trivy
+       run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            aquasec/trivy:0.65.0 image \
+            --exit-code 1 \
+            --ignore-unfixed \
+            --vuln-type os,library \
+            --severity CRITICAL,HIGH \
+            ai381-lab2:scan
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
