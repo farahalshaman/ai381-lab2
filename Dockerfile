@@ -1,5 +1,5 @@
 
-FROM python:3.12-slim AS builder
+FROM python:3.12-slim@sha256:646fb0bca3dd3ea1bcc6feb72c17ed16eed6e10cffc732fcc1478bd3e7f02d7b AS builder
 
 ENV VIRTUAL_ENV=/opt/venv
 RUN python -m venv "$VIRTUAL_ENV"
@@ -9,7 +9,7 @@ WORKDIR /build
 COPY requirements.lock .
 RUN pip install --no-cache-dir -r requirements.lock
 
-FROM python:3.12-slim AS runtime
+FROM python:3.12-slim@sha256:646fb0bca3dd3ea1bcc6feb72c17ed16eed6e10cffc732fcc1478bd3e7f02d7b AS runtime
 
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
